@@ -1,18 +1,13 @@
 # frozen_string_literal: true
 
 module MCP
-  class Annotations
-    attr_reader :audience, :priority
-
+  Annotations = Data.define(:audience, :priority) do
     def initialize(audience: nil, priority: nil)
-      @audience = audience
-      @priority = priority
-
-      freeze
+      super(audience:, priority:)
     end
 
     def to_h
-      { audience:, priority: }.compact.freeze
+      super.compact.freeze
     end
   end
 end

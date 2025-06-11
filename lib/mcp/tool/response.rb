@@ -2,16 +2,13 @@
 
 module MCP
   class Tool
-    class Response
-      attr_reader :content, :is_error
-
+    Response = Data.define(:content, :is_error) do
       def initialize(content, is_error: false)
-        @content = content
-        @is_error = is_error
+        super(content:, is_error:)
       end
 
       def to_h
-        { content:, isError: is_error }.compact
+        { content:, isError: is_error }.compact.freeze
       end
     end
   end

@@ -2,23 +2,13 @@
 # frozen_string_literal: true
 
 module MCP
-  class Resource
-    attr_reader :uri, :name, :description, :mime_type
-
+  Resource = Data.define(:uri, :name, :description, :mime_type) do
     def initialize(uri:, name:, description: nil, mime_type: nil)
-      @uri = uri
-      @name = name
-      @description = description
-      @mime_type = mime_type
+      super(uri:, name:, description:, mime_type:)
     end
 
     def to_h
-      {
-        uri: @uri,
-        name: @name,
-        description: @description,
-        mimeType: @mime_type,
-      }.compact
+      { uri:, name:, description:, mimeType: mime_type }.compact.freeze
     end
   end
 end

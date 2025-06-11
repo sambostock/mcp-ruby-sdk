@@ -3,16 +3,13 @@
 
 module MCP
   class Resource
-    class Embedded
-      attr_reader :resource, :annotations
-
+    Embedded = Data.define(:resource, :annotations) do
       def initialize(resource:, annotations: nil)
-        @resource = resource
-        @annotations = annotations
+        super(resource:, annotations:)
       end
 
       def to_h
-        { resource: resource.to_h, annotations: }.compact
+        { resource: resource.to_h, annotations: }.compact.freeze
       end
     end
   end

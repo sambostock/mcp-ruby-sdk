@@ -2,16 +2,10 @@
 
 module MCP
   class Tool
-    class Annotations
-      attr_reader :title, :read_only_hint, :destructive_hint, :idempotent_hint, :open_world_hint, :to_h
+    Annotations = Data.define(:title, :read_only_hint, :destructive_hint, :idempotent_hint, :open_world_hint) do
+      attr_reader :to_h
 
       def initialize(title: nil, read_only_hint: nil, destructive_hint: nil, idempotent_hint: nil, open_world_hint: nil)
-        @title = title
-        @read_only_hint = read_only_hint
-        @destructive_hint = destructive_hint
-        @idempotent_hint = idempotent_hint
-        @open_world_hint = open_world_hint
-
         @to_h = {
           title:,
           readOnlyHint: read_only_hint,
@@ -20,7 +14,7 @@ module MCP
           openWorldHint: open_world_hint,
         }.compact.freeze
 
-        freeze
+        super(title:, read_only_hint:, destructive_hint:, idempotent_hint:, open_world_hint:)
       end
     end
   end

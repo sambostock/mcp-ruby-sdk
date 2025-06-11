@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module MCP
-  class Tool
-    attr_reader :name, :description, :input_schema, :annotations, :to_h
+  Tool = Data.define(:name, :description, :input_schema, :annotations) do
+    attr_reader :to_h
 
     class << self
       def define(...) = new(...)
@@ -17,16 +17,11 @@ module MCP
     end
 
     def initialize(name:, description: nil, input_schema: nil, annotations: nil, &block)
-      input_schema = InputSchema.new(**input_schema) if Hash === input_schema
-      annotations  = Annotations.new(**annotations)  if Hash === annotations
+      input_schema = Tool::InputSchema.new(**input_schema) if Hash === input_schema
+      annotations  = Tool::Annotations.new(**annotations)  if Hash === annotations
       raise ArgumentError, "Tool definition requires a block" unless block
 
-      @name         = name
-      @description  = description
-      @input_schema = input_schema
-      @annotations  = annotations
-      @block        = block
-
+      @block = block
       @to_h = {
         name:,
         description:,
@@ -34,7 +29,7 @@ module MCP
         annotations: annotations&.to_h,
       }.compact.freeze
 
-      freeze
+      super(name:, description:, input_schema:, annotations:)
     end
 
     def call(args, server_context:)

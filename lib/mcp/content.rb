@@ -3,30 +3,24 @@
 
 module MCP
   module Content
-    class Text
-      attr_reader :text, :annotations
-
+    Text = Data.define(:text, :annotations) do
       def initialize(text, annotations: nil)
-        @text = text
-        @annotations = annotations
+        super(text:, annotations:)
       end
 
       def to_h
-        { text:, annotations:, type: "text" }.compact
+        { **super, type: "text" }.compact.freeze
       end
     end
 
-    class Image
-      attr_reader :data, :mime_type, :annotations
-
+    Image = Data.define(:data, :mime_type, :annotations) do
       def initialize(data, mime_type, annotations: nil)
-        @data = data
-        @mime_type = mime_type
-        @annotations = annotations
+        super(data:, mime_type:, annotations:)
       end
 
+      # FIXME: mime_type should probably turn into mimeType
       def to_h
-        { data:, mime_type:, annotations:, type: "image" }.compact
+        { **super, type: "image" }.compact.freeze
       end
     end
   end

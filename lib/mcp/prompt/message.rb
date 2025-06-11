@@ -3,16 +3,13 @@
 
 module MCP
   class Prompt
-    class Message
-      attr_reader :role, :content
-
+    Message = Data.define(:role, :content) do
       def initialize(role:, content:)
-        @role = role
-        @content = content
+        super(role:, content:)
       end
 
       def to_h
-        { role:, content: content.to_h }.compact
+        { role:, content: content.to_h }.compact.freeze
       end
     end
   end

@@ -2,12 +2,12 @@
 
 module MCP
   class Tool
-    class InputSchema
-      attr_reader :properties, :required, :to_h
+    InputSchema = Data.define(:properties, :required) do
+      attr_reader :to_h
 
       def initialize(properties: {}, required: [])
-        @properties = properties.transform_keys(&:to_sym)
-        @required = required.map(&:to_sym)
+        properties = properties.transform_keys(&:to_sym)
+        required = required.map(&:to_sym)
 
         @to_h = {
           type: "object",
@@ -15,7 +15,7 @@ module MCP
           required:,
         }.compact.freeze
 
-        freeze
+        super(properties:, required:)
       end
     end
   end

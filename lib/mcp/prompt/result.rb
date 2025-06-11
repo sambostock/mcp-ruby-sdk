@@ -3,16 +3,13 @@
 
 module MCP
   class Prompt
-    class Result
-      attr_reader :description, :messages
-
+    Result = Data.define(:description, :messages) do
       def initialize(description: nil, messages: [])
-        @description = description
-        @messages = messages
+        super(description:, messages:)
       end
 
       def to_h
-        { description:, messages: messages.map(&:to_h) }.compact
+        { description:, messages: messages.map(&:to_h) }.compact.freeze
       end
     end
   end

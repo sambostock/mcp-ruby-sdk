@@ -3,21 +3,17 @@
 
 module MCP
   class Prompt
-    class Argument
-      attr_reader :name, :description, :required, :to_h
+    Argument = Data.define(:name, :description, :required) do
+      attr_reader :to_h
 
       def initialize(name:, description: nil, required: false)
-        @name = name
-        @description = description
-        @required = required
-
         @to_h = {
           name:,
           description:,
           required:,
         }.compact.freeze
 
-        freeze
+        super(name:, description:, required:)
       end
     end
   end

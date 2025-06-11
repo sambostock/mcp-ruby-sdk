@@ -3,42 +3,36 @@
 
 module MCP
   class Resource
-    class Contents
-      attr_reader :uri, :mime_type
+    # FIXME: Should mime_type to_h as mimeType?
+    # FIXME: Is it a problem that we lose inheritance here?
 
+    Contents = Data.define(:uri, :mime_type) do
       def initialize(uri:, mime_type: nil)
-        @uri = uri
-        @mime_type = mime_type
+        super(uri:, mime_type:)
       end
 
       def to_h
-        { uri:, mime_type: }.compact
+        { uri:, mime_type: }.compact.freeze
       end
     end
 
-    class TextContents < Contents
-      attr_reader :text
-
+    TextContents = Data.define(:text, :uri, :mime_type) do
       def initialize(text:, uri:, mime_type:)
-        super(uri:, mime_type:)
-        @text = text
+        super(text:, uri:, mime_type:)
       end
 
       def to_h
-        super.merge(text:)
+        { text:, uri:, mime_type: }.compact.freeze
       end
     end
 
-    class BlobContents < Contents
-      attr_reader :data
-
+    BlobContents = Data.define(:data, :uri, :mime_type) do
       def initialize(data:, uri:, mime_type:)
-        super(uri:, mime_type:)
-        @data = data
+        super(data:, uri:, mime_type:)
       end
 
       def to_h
-        super.merge(data:)
+        { data:, uri:, mime_type: }.compact.freeze
       end
     end
   end
